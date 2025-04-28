@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Map with Leaflet</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Make the map fill the full page */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet.js library -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+    // Initialize the map
+    var map = L.map('map', {
+        center: [18.322, 72.932], // Approximate center
+        zoom: 13,
+        minZoom: 2,
+        maxZoom: 18
+    });
+    // Add OpenStreetMap as base layer
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    // URL to your custom image
+    var imageUrl = "C:/Manas_Barve/For social media/Forts/Murud/padmadurga 3.jpeg"; // <-- Replace this with your image path
+
+    // Define image bounds (roughly covering a small area around your center)
+    var imageBounds = [
+        [18.327, 72.927], // Top-left corner [lat, lng]
+        [18.317, 72.937]  // Bottom-right corner [lat, lng]
+    ];
+
+    // Add image as overlay
+    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+    // Fit the map view to the image bounds
+    map.fitBounds(imageBounds);
+
+    // Example markers (optional)
+    var fortMarkers = [
+        {
+            name: "Padmadurga",
+            coords: [18.322, 72.932],
+            description: "महाराजांनी जंजीरा काबीज करायला हा जिंकला."
+        },
+        {
+            name: "मुरुड जंजिरा",
+            coords: [ 18.299, 72.9647],
+            description: "लवकरच"
+        }
+    ];
+
+    fortMarkers.forEach(function(fort) {
+        L.marker(fort.coords)
+            .addTo(map)
+            .bindPopup('<b>' + fort.name + '</b><br>' + fort.description);
+    });
+
+</script>
+
+</body>
+</html>
